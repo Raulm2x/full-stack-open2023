@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import ReactDOM from "react-dom";
+import ReactDOM from "react-dom/client";
+
 
 //Componente con estado
 /*
@@ -36,7 +37,7 @@ const Button = ({ handleClick, text }) => {
       <button onClick={handleClick}>{text}</button>
     </>
   );
-};*/
+};
 
 //Estado complejo
 const App = () => {
@@ -62,22 +63,72 @@ const App = () => {
     </div>
   )
 }
+*/
 
-const History = (props) => {
-  if (props.allClicks.length === 0) {
-    return (
-      <div>
-        the app is used by pressing the buttons
-      </div>
-    )
+const esPrimo = (num) => {
+  if (num < 4) {
+    return true;
   }
+
+  const root_num = num ** (1 / 2);
+  let count = 2;
+
+  while (count <= root_num) {
+    if (num % count === 0) {
+      return false;
+    }
+    count += 1;
+  }
+
+  return true;
+};
+
+const siguiente = (num) => {
+  num += 1;
+
+  while (true) {
+    if (esPrimo(num)) {
+      return num;
+    }
+    num += 1;
+  }
+};
+
+const App = () => {
+  const [primo, setPrimo] = useState(1);
+  const [allClicks, setAll] = useState([]);
+
+  const handPrimo = () => {
+    const nextPrimo = siguiente(primo);
+    setAll(allClicks.concat(nextPrimo));
+    setPrimo(nextPrimo);
+  };
+  const resetPrimo = () => {
+    setPrimo(1);
+    setAll([]);
+  };
 
   return (
     <div>
-      button press history: {props.allClicks.join(' ')}
+      {primo}
+      <br />
+      <button onClick={handPrimo}>Next</button>
+      <button onClick={resetPrimo}>Reset</button>
+      <History allClicks={allClicks} />
     </div>
-  )
-}
+  );
+};
 
+const History = (props) => {
+  if (props.allClicks.length === 0) {
+    return <div>the app is used by pressing the buttons</div>;
+  }
 
-ReactDOM.render(<App />, document.getElementById("root"));
+  return <div>button press history: {props.allClicks.join(" ")}</div>;
+};
+
+const rootElement = document.getElementById('root');
+
+// ReactDOM.render(<App />, rootElement);
+const root = ReactDOM.createRoot(rootElement);
+root.render(<App />);
