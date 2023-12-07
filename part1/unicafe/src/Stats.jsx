@@ -1,4 +1,5 @@
 import StatisticLine from "./StatisticLine"
+import StatisticRow from "./StatisticRow"
 
 const Stats = ({good,neutral,bad}) => {
     const full = good + neutral + bad
@@ -15,12 +16,16 @@ const Stats = ({good,neutral,bad}) => {
 
     return (
     <div>
-        <StatisticLine text="good" value={good}/>
-        <StatisticLine text="neutral" value={neutral}/>
-        <StatisticLine text="bad" value={bad}/>
-        <p>full: {full}</p>
-        <p>average: {average.toFixed(2)}</p>
-        <p>positive: {positive.toFixed(2)}%</p>
+        <table>
+            <tbody>
+                <StatisticRow text="good" value={good}/>
+                <StatisticRow text="neutral" value={neutral}/>
+                <StatisticRow text="bad" value={bad}/>
+                <StatisticRow text="full" value={full}/>
+                <StatisticRow text="average" value={average.toFixed(2)}/>
+                <StatisticRow text="positive" value={positive.toFixed(2)} percent="yes"/>
+            </tbody>
+        </table>
     </div>
     )
 }
