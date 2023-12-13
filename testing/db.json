@@ -1,42 +1,52 @@
 {
-  "notes": [
+  "countries": [
     {
       "id": 1,
-      "content": "HTML is easy",
-      "important": true
+      "name": "Argentina",
+      "description": "A beautiful country in South America",
+      "continent": "South America",
+      "visited": true
     },
     {
       "id": 2,
-      "content": "Browser can execute only JavaScript",
-      "important": true
+      "name": "United States",
+      "description": "A diverse country in North America",
+      "continent": "North America",
+      "visited": false
     },
     {
       "id": 3,
-      "content": "GET and POST are the most important methods of HTTP protocol",
-      "important": false
+      "name": "Japan",
+      "description": "An island country in East Asia",
+      "continent": "Asia",
+      "visited": true
     },
     {
-      "content": "a new note...",
-      "date": "2023-12-12T16:16:38.064Z",
-      "important": false,
-      "id": 4
+      "id": 4,
+      "name": "South Africa",
+      "description": "A country at the southern tip of Africa",
+      "continent": "Africa",
+      "visited": false
     },
     {
-      "content": "a new note...",
-      "date": "2023-12-12T16:16:44.075Z",
-      "important": false,
-      "id": 5
+      "id": 5,
+      "name": "Australia",
+      "description": "A country and continent surrounded by the Indian and Pacific oceans",
+      "continent": "Oceania",
+      "visited": true
     },
     {
-      "content": "a new note...",
-      "date": "2023-12-12T16:19:42.237Z",
-      "important": false,
+      "name": "Colombia",
+      "continent": "South America",
+      "description": "The most beautiful country of the World!",
+      "visited": false,
       "id": 6
     },
     {
-      "content": "hello da",
-      "date": "2023-12-12T16:19:52.512Z",
-      "important": true,
+      "name": "España",
+      "continent": "Europa",
+      "description": "Onda vital",
+      "visited": true,
       "id": 7
     }
   ]

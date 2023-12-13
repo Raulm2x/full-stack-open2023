@@ -1,95 +1,118 @@
 import React, { useState, useEffect } from "react";
-import './App.css';
-import Note from './components/Note.jsx';
-import noteService from "./services/notes.js";
+import coservs from './services/countries.js';
+import Country from "./components/countries/Country.jsx";
+import FormCountry from "./components/countries/FormCountry.jsx";
+import DropdownMenu from "./components/countries/DropDownMenu.jsx";
+import FormDescription from "./components/countries/FormDescription.jsx";
 
-//const promise = axios.get('http://localhost:3001/notes')
-//console.log(promise)
-
-//promise.then(response => {
-//  console.log(response) })
+const messagge = "Write a country's description..."
 
 const App = () => {
- 
-  const [notes, setNotes] = useState([])
-  const [newNote, setNewNote] = useState('a new note...') 
-  const [showAll, setShowAll] = useState(true)
+    const [countries,setCountries] = useState([])
+    const [showAll, setShowAll] = useState(true)
+    const [newName, setNewName] = useState('')
+    const [newContinent, setNewContinent] = useState('')
+    const [newDescription, setNewDescription] = useState(messagge)
+    const [isChecked, setChecked] = useState(false)
+    const [selectedCountry, setSelectedCountry] = useState("None")
+    const [changedDescription, setChangedDescription] = useState(messagge)
+    const [otherChecked, setOtherChecked] = useState(false)
 
-  //Hook
-  const hook = () => {
-    console.log('effect')
-    noteService
-      .getAll()
-      .then(initialNotes => {
-        console.log('promise fulfilled')
-        setNotes(initialNotes)
-      })
-  }
-  useEffect(hook, [])
-
-  const addNote = (event) => {
-    event.preventDefault()
-    const noteObject = {
-      content: newNote,
-      date: new Date().toISOString(),
-      important: Math.random() < 0.5,
+    const hook = () =>{
+        coservs
+        .getAll()
+        .then(initialCountries => {
+            console.log("promise fullfiled")
+            //console.log(initialCountries)
+            setCountries(initialCountries)
+        })
     }
-  
-    noteService    
-    .create(noteObject)    
-    .then(returnedNote => {
-      setNotes(notes.concat(returnedNote))
-      setNewNote('')   
-     })
-  }
+    useEffect(hook,[])
+    console.log("there are",countries.length,"countries rendered")
+   
+    const countriesToShow = showAll
+      ? countries
+      : countries.filter(country => country.visited)
 
-  const handleNoteChange = (event) => {    
-    //console.log(event.target.value)    
-    setNewNote(event.target.value)
-  }
-
-  const notesToShow = showAll
-      ? notes
-      : notes.filter(note => note.important)
-  
-  const toggleImportanceOf = (id) => {   
-    const note = notes.find(n => n.id === id)
-    const changedNote = { ...note, important: !note.important }
-  
-    noteService
-      .update(id, changedNote).then(returnedNote => {
-        setNotes(notes.map(note => note.id !== id ? note : returnedNote))
-    })
+    const addCountry = (event) =>{
+        event.preventDefault()
+        const newCountry = {
+            name : newName,
+            continent: newContinent,
+            description: newDescription,
+            visited: isChecked
+        }
+        coservs
+        .create(newCountry)
+        .then(returnedCountry =>{
+            setCountries(countries.concat(returnedCountry))
+            console.log(newName, "was saved successfully!")
+            setNewName('')
+            setNewContinent('')
+            setNewDescription(messagge)
+            setChecked(false)
+        })
     }
 
-  
-  return (
-    <div>
-      <h1>Notes</h1>
-      <div>    
-        <button onClick={() => setShowAll(!showAll)}>
-          show {showAll ? 'important' : 'all' }        
-        </button>      
-      </div>
-      <ul>
-        {notesToShow.map(note => 
-          <Note 
-          key={note.id} 
-          note={note} 
-          toggleImportance={() => toggleImportanceOf(note.id)}
-          />
-        )}
-      </ul>
-      <form onSubmit={addNote}>
-        <input
-          value={newNote}
-          onChange={handleNoteChange}        />
-        <button type="submit">save</button>
-      </form>   
-    </div>
-  )
-};
+    const handleCountryChange = (event) => {
+        setSelectedCountry(event.target.value)
+    }
+   
+    const changeDescription = (event) => {
+        event.preventDefault()
+        const country = countries.find(c => c.name === selectedCountry)
+        console.log(country)
+        const id = country.id
+        const changedCountry = {...country, description: changedDescription, visited: otherChecked }
+
+        coservs
+        .update(id, changedCountry)
+        .then(returnedCountry => {
+            setCountries(countries.map(country => country.id != id? country : returnedCountry))
+        })
+    }
+
+    return (
+        <div>
+            <h1>Countries</h1>
+            <button onClick={() => setShowAll(!showAll)}>
+                show {showAll? "visited":"all"}
+            </button>
+            <ul>
+                {countriesToShow.map(country => 
+                    <Country key={country.id}
+                     country={country}/>
+                )}
+            </ul>
+            <h2>Add a new country</h2>
+            <FormCountry 
+                onSubmit={addCountry}
+                newName = {newName}
+                handleNewName = {(event) => setNewName(event.target.value)}
+                newContinent = {newContinent}
+                handleNewContinent = {(event) => setNewContinent(event.target.value)}
+                newDescription = {newDescription}
+                handleNewDescription = {(event) => setNewDescription(event.target.value)}
+                checked = {isChecked}
+                handleChecked = {() => setChecked(!isChecked) }
+            />
+            <h2>Change the description of a country</h2>
+            <DropdownMenu
+                countries={countries}
+                selectedCountry={selectedCountry}
+                handleCountryChange={handleCountryChange}
+            />
+            <FormDescription
+                onSubmit = {changeDescription}
+                newDescription = {changedDescription}
+                handleNewDescription = {(event) => setChangedDescription(event.target.value)}
+                checked = {otherChecked}
+                handleChecked = {() => setOtherChecked(!otherChecked) }
+            />
 
 
+        </div>
+    )
+}
 
-export default App;
+export default App
