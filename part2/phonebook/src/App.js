@@ -3,6 +3,7 @@ import axios from 'axios'
 import Persons from './components/Persons'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
+import services from './services'
 
 const App = () => {
   const [persons, setPersons] = useState([]) 
@@ -13,11 +14,11 @@ const App = () => {
 
   const hook = () => {
     console.log("effect")
-    axios
-    .get('http://localhost:3001/persons')
+    services
+    .getAll()
     .then(response =>{
       console.log('promise fulfilled') 
-      setPersons(response.data)
+      setPersons(response)
     })
   }
 
@@ -28,7 +29,6 @@ const App = () => {
   const addPerson = (event) => {
     event.preventDefault()
     const newPerson = {
-      id: persons.length + 1,
       name: newName,
       number: newNumber,
     }
@@ -36,10 +36,24 @@ const App = () => {
     const personExists = persons.some(person => person.name === newPerson.name)
 
     if (personExists) {
-      alert(`${newPerson.name} is already added to phonebook`)
+      if (window.confirm(`${newPerson.name} is already added to phonebook, replace the old number with a new one?`)) {
+        const person = persons.find(p => p.name === newPerson.name)
+        const id = person.id
+        services
+        .update(id, newPerson)
+        .then(response => {
+          setPersons(persons.map(person => person.id !== id? person : response ))
+          alert(`${newPerson.name}'s number was updated`)
+          setNewNumber('')
+        })
+      }    
     }
     else {
-      setPersons(persons.concat(newPerson))
+      services
+      .create(newPerson)
+      .then(addedPerson => {
+        setPersons(persons.concat(addedPerson))
+      })
       setNewNumber('')
     }
     setNewName('')
@@ -61,6 +75,19 @@ const App = () => {
     setShowAll(query ? false : true)
   }
 
+  const deletePerson = (id) => {
+    const person = persons.find(p => p.id === id)
+    if (window.confirm(`Delete ${person.name}?`)) {
+      services
+      .erase(id)
+      .then(response => {
+        console.log("delete completed", response)
+        hook()
+      })
+    }    
+    
+  }
+
   const personsToShow = showAll
       ? persons
       : persons.filter(person => person.name.toLowerCase().includes(query.toLowerCase()))
@@ -80,7 +107,11 @@ const App = () => {
       <h3>Numbers</h3>
       <ul>
         {personsToShow.map(person => (
-          <Persons key={person.id} name={person.name} number={person.number} />))}
+          <Persons 
+          key={person.id} 
+          person={person}
+          onClick={() => deletePerson(person.id)}
+          />))}
       </ul>
     </div>
   )
