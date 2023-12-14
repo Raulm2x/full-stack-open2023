@@ -4,6 +4,7 @@ import Persons from './components/Persons'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import services from './services'
+import Notification from './components/Notification'
 
 const App = () => {
   const [persons, setPersons] = useState([]) 
@@ -11,6 +12,8 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [showAll, setShowAll] = useState(true)
   const [query, setQuery] = useState('')
+  const [confMessage, setConfMessage] = useState(null)
+  const [type, setType] = useState(true)
 
   const hook = () => {
     console.log("effect")
@@ -55,6 +58,13 @@ const App = () => {
         setPersons(persons.concat(addedPerson))
       })
       setNewNumber('')
+      setType(true)
+      setConfMessage(
+        `Added ${newPerson.name}`
+      )       
+      setTimeout(() => {
+        setConfMessage(null)
+      }, 5000)
     }
     setNewName('')
   }
@@ -81,10 +91,19 @@ const App = () => {
       services
       .erase(id)
       .then(response => {
-        console.log("delete completed", response)
+        setType(true)
+        setConfMessage(`${person.name} was removed from the server successfully`)
         hook()
       })
-    }    
+      .catch(error => {
+        setType(false)
+        setConfMessage(`${person.name} has already been removed from the server`)
+        setPersons(persons.filter(p => p.id !== id))
+      } )
+    }
+    setTimeout(() => {
+      setConfMessage(null)
+    }, 5000)    
     
   }
 
@@ -93,8 +112,9 @@ const App = () => {
       : persons.filter(person => person.name.toLowerCase().includes(query.toLowerCase()))
 
   return (
-    <div>
-      <h2>Phonebook</h2>
+    <div className="app">
+      <h2>Los Santos Phonebook</h2>
+      <Notification message={confMessage} type={type}/>
       <Filter value={query} onChange={handleQuery}  /> 
       <h3>add a new</h3>
       <PersonForm 

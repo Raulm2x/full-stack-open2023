@@ -6,17 +6,19 @@ const PersonForm = (props) => {
     const onChangeNumber = props.onChangeNumber
 
     return (
-    <form onSubmit={onSubmit}>
-        <div>
-          name: <input value={name} onChange={onChangeName}  />
-        </div>
-        <div>
-          number: <input value={number} onChange={onChangeNumber} />
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
+    <form onSubmit={onSubmit} className="miFormulario">
+      <div className="campo">
+        <label htmlFor="inputName">Name:</label>
+        <input value={name} onChange={onChangeName} id="inputName" />
+      </div>
+      <div className="campo">
+        <label htmlFor="inputNumber">Number:</label>
+        <input value={number} onChange={onChangeNumber} id="inputNumber" />
+      </div>
+      <div>
+        <button type="submit" className="formButton">Add</button>
+      </div>
+    </form>
     )
 }
 
