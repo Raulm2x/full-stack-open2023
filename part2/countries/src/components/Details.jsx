@@ -1,5 +1,5 @@
 import { useState } from "react"
-import Weather from "./Weather"
+//import Weather from "./Weather"
 
 const Details = ({country, all}) => {
     
@@ -7,7 +7,7 @@ const Details = ({country, all}) => {
 
     const handleShow = () => {
         setShow(!show)
-        console.log('show is now', !show)
+        console.log(`show ${country.name.common} is now`, !show)
     }
 
     const buttonShow = (
@@ -39,9 +39,10 @@ const Details = ({country, all}) => {
             }
             <p>
                 <img src={country.flags.png ?? country.flags.svg}
-                alt={`${country.name} Flag`} style={{ width: '150px', height: 'auto' }} />
+                alt={`${country.name.common} Flag`} style={{ width: '150px', height: 'auto' }} />
             </p>
-            <Weather country={country}/>
+            <h3> Weather </h3>
+            <p>Couldn't do this 😣</p>
         </div>
     )
 

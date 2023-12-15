@@ -13,10 +13,14 @@ const App = () => {
       console.log("Countries loaded")
       setCountries(response)
     })
+    .catch(error => {
+      console.log("Starting...")
+    })
   }
   useEffect(hook,[])
 
   if (!countries){
+    console.log("Loading countries, please wait...")
     return (
       <h1>Loading countries...</h1>
     )
