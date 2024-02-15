@@ -1,5 +1,6 @@
 import { useDispatch } from "react-redux"
 import { addAnecdote } from "../reducers/anecdoteReducer"
+import { setMessage } from "../reducers/notificationReducer"
 
 const  AnecdoteForm = () => {
   const dispatch = useDispatch()
@@ -10,6 +11,10 @@ const  AnecdoteForm = () => {
     event.target.anecdote.value = ''
     
     dispatch(addAnecdote(content))
+    dispatch(setMessage(`you successfully added '${content}'`))
+    setTimeout(() => {
+      dispatch(setMessage(''))
+    }, 5000)
   }
 
   return (
