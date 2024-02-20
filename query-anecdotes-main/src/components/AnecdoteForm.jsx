@@ -1,9 +1,12 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { useState } from 'react'
+import { useContext } from 'react'
 import { createAnecdote } from '../request'
+import NotificationContext from "../notificationContext"
+
 
 const AnecdoteForm = () => {
-  const [errorMessage, setErrorMessage] = useState('')
+  const [notification, dispatch] = useContext(NotificationContext)
+
   const queryClient = useQueryClient()
 
   const newAnecMutation = useMutation({
@@ -11,6 +14,10 @@ const AnecdoteForm = () => {
     onSuccess: (newAnecdote) => {
       const anecdotes = queryClient.getQueryData(['anecdotes'])
       queryClient.setQueryData(['anecdotes'], anecdotes.concat(newAnecdote))
+      dispatch({payload: `Added '${newAnecdote.content}'` })
+      setTimeout(() => {
+        dispatch({payload: '' })
+      }, 5000)
     },
   })
 
@@ -19,12 +26,12 @@ const AnecdoteForm = () => {
     const content = event.target.anecdote.value
     event.target.anecdote.value = ''
     if (content.length >= 5 ){
-    newAnecMutation.mutate({ content, votes: 0 })
-    console.log('new anecdote')
+      newAnecMutation.mutate({ content, votes: 0 })
+      console.log('new anecdote')
     } else {
-      setErrorMessage('Content must be at least 5 characters long')
+      dispatch({payload: 'Content must be at least 5 characters long' })
       setTimeout(() => {
-        setErrorMessage('')
+        dispatch({payload: '' })
       }, 3000)
     }
   }
@@ -38,7 +45,6 @@ const AnecdoteForm = () => {
         <input name='anecdote' />
         <button type="submit">create</button>
       </form>
-      {errorMessage && <div style={messageStyle}> {errorMessage}</div>}
     </div>
   )
 }
