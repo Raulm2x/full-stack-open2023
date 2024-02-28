@@ -1,18 +1,29 @@
-import { useState } from "react"
+import { useField } from "../hooks"
 
 const CreateNew = (props) => {
-  const [content, setContent] = useState('')
-  const [author, setAuthor] = useState('')
-  const [info, setInfo] = useState('')
+  const content = useField('text')
+  const author = useField('text')
+  const info = useField('text')
 
+  const {clearField:bruh1, ...inputAuthor} = author
+  const {clearField:bruh2, ...inputContent} = content
+  const {clearField:bruh3, ...inputInfo} = info
+  
   const handleSubmit = (e) => {
     e.preventDefault()
     props.addNew({
-      content,
-      author,
-      info,
+      content: content.value,
+      author: author.value,
+      info: info.value,
       votes: 0
     })
+  }
+
+  const reset = () => {
+    console.log('reset')
+    content.clearField()
+    info.clearField()
+    author.clearField()
   }
 
   return (
@@ -21,18 +32,20 @@ const CreateNew = (props) => {
       <form onSubmit={handleSubmit}>
         <div>
           content
-          <input name='content' value={content} onChange={(e) => setContent(e.target.value)} />
+          <input {...inputContent} />
         </div>
         <div>
           author
-          <input name='author' value={author} onChange={(e) => setAuthor(e.target.value)} />
+          <input {...inputAuthor} />
         </div>
         <div>
           url for more info
-          <input name='info' value={info} onChange={(e)=> setInfo(e.target.value)} />
+          <input {...inputInfo} />
         </div>
-        <button>create</button>
+        <button type="submit">create</button>
+        <button type="button" onClick={reset}>reset</button>
       </form>
+     
     </div>
   )
 }
