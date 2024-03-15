@@ -18,6 +18,8 @@
     "supertest": "^6.3.4"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^2.2.1",
+    "axios": "^1.6.7",
     "bcrypt": "^5.1.1",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
@@ -27,7 +29,9 @@
     "mongodb": "^6.3.0",
     "mongoose": "^7.6.5",
     "mongoose-unique-validator": "^4.0.0",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "react-redux": "^9.1.0",
+    "redux": "^5.0.1"
   },
   "jest": {
     "testEnvironment": "node",
