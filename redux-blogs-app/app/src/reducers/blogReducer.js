@@ -9,11 +9,15 @@ const blogSlice = createSlice({
   reducers:{
     setBlogs(state,action){
       return action.payload
+    },
+    sortBlogs(state,action){
+      const sortedBlogs = listHelper.sortByLikes(state)
+      return sortedBlogs
     }
   }
 })
 
-export const { setBlogs } = blogSlice.actions
+export const { setBlogs, sortBlogs } = blogSlice.actions
 
 export const initializeBlogs = () => {
   let blogs
@@ -21,7 +25,7 @@ export const initializeBlogs = () => {
     blogs = await apiBlogs.getAll()
     if (blogs){
       console.log(blogs.length,'blogs were loaded')
-      const blogs = listHelper.sortByLikes(blogs)
+      blogs = listHelper.sortByLikes(blogs)
     }
     dispatch(setBlogs(blogs))
   }
