@@ -35,7 +35,7 @@ export const userLogin = (userData) => {
 export const userLogout = () => {
   return async dispatch => {
     window.localStorage.removeItem('loggedBlogappUser')
-    dispatch(setUser([]))
+    dispatch(setUser(null))
   }
 }
 

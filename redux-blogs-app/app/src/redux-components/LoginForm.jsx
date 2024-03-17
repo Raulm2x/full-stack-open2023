@@ -15,7 +15,6 @@ const LoginForm = () => {
   const handleLogin = async (userData) => {
     try {
       dispatch(userLogin(userData))
-      dispatch(setNotification('Successfully logged in', true, 5))
     } catch {
       console.log('error in handle login')
       dispatch(setNotification('Wrong username or password', false, 5))

@@ -9,9 +9,10 @@ import apiBlogs from '../services/apiBlogs'
 
 import LikeButton from './LikeButton'
 import RemoveButton from './RemoveButton'
+import { setNotification } from '../reducers/notificationReducer'
 
 //OnClick:handleLikeButton
-const BlogDetails = ({ blog, handleRemove }) => {
+const BlogDetails = ({ blog }) => {
   const dispatch = useDispatch()
   const user = useSelector(state => state.user)
   const blogs = useSelector(state => state.blogs)
@@ -19,6 +20,7 @@ const BlogDetails = ({ blog, handleRemove }) => {
   const [visible, setVisible] = useState(false)
   const [likedBlog, setLikedBlog] = useState(false)
 
+  //Like Button
   const handleLikeButton = async (blog, action) => {
     const updatedBlog = { ...blog, action }
 
@@ -51,6 +53,27 @@ const BlogDetails = ({ blog, handleRemove }) => {
     }
   }
 
+  //Remove Button
+  const handleRemove = async (blog) => {
+    if (window.confirm(`Delete titled blog: ${blog.title}?`)) {
+      try{
+        await apiBlogs.erase(blog.id)
+
+        const upUser = { ...user,
+          blogs: user.blogs.filter(l => l !== blog.id) }
+        dispatch(setUser(upUser))
+
+        const upBlogs = blogs.filter(b => b.id !== blog.id)
+        dispatch(setBlogs(upBlogs))
+
+        dispatch(setNotification(`${blog.title} by ${blog.author} was removed`, true, 5))
+
+      } catch (error) {
+        console.error(error)
+      }
+    }
+  }
+
   const button = () => {
     return (
       <button onClick={() => setVisible(!visible)}>
@@ -68,7 +91,12 @@ const BlogDetails = ({ blog, handleRemove }) => {
     }
   }, [user, blog.likedBy])
 
-  const ownedBlog = user? user.blogs.find(b => b.id === blog.id): false
+  let ownedBlog = false
+  if (user && blogs) {
+    ownedBlog = user? user.blogs.find(b => b === blog.id): false
+  } else {
+    ownedBlog = false
+  }
 
   return (
     <li className='blog'>
@@ -93,10 +121,7 @@ const BlogDetails = ({ blog, handleRemove }) => {
 }
 
 BlogDetails.propTypes = {
-  blog: PropTypes.object.isRequired,
-  OnClick: PropTypes.func.isRequired,
-  user: PropTypes.object.isRequired,
-  handleRemove: PropTypes.func.isRequired,
+  blog: PropTypes.object.isRequired
 }
 
 export default BlogDetails

@@ -13,11 +13,14 @@ const blogSlice = createSlice({
     sortBlogs(state,action){
       const sortedBlogs = listHelper.sortByLikes(state)
       return sortedBlogs
+    },
+    appendBlog(state,action){
+      return state.concat(action.payload)
     }
   }
 })
 
-export const { setBlogs, sortBlogs } = blogSlice.actions
+export const { setBlogs, sortBlogs, appendBlog } = blogSlice.actions
 
 export const initializeBlogs = () => {
   let blogs
