@@ -1,12 +1,12 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
-import Notification from './redux-components/Notification.jsx'
-import LoginForm from './redux-components/LoginForm.jsx'
-import Togglable from './redux-components/Togglable.jsx'
-import BlogForm from './redux-components/BlogForm.jsx'
-import ShowBlogs from './redux-components/ShowBlogs.jsx'
-import LogOutButton from './redux-components/LogOutButton.jsx'
+import Notification from './components/Notification.jsx'
+import LoginForm from './components/LoginForm.jsx'
+import Togglable from './components/Togglable.jsx'
+import BlogForm from './components/BlogForm.jsx'
+import ShowBlogs from './components/ShowBlogs.jsx'
+import LogOutButton from './components/LogOutButton.jsx'
 
 import { initializeBlogs } from './reducers/blogReducer.js'
 
