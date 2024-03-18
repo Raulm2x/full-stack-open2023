@@ -7,8 +7,10 @@ import Togglable from './components/Togglable.jsx'
 import BlogForm from './components/BlogForm.jsx'
 import ShowBlogs from './components/ShowBlogs.jsx'
 import LogOutButton from './components/LogOutButton.jsx'
+import ShowUsers from './components/ShowUsers.jsx'
 
 import { initializeBlogs } from './reducers/blogReducer.js'
+import { loadUsers } from './reducers/usersReducer'
 
 
 const App = () => {
@@ -18,6 +20,7 @@ const App = () => {
 
   useEffect(() => {
     dispatch(initializeBlogs())
+    dispatch(loadUsers())
   },[])
 
   //-----Show Components-----
@@ -57,6 +60,7 @@ const App = () => {
         }
         <br/>
         <ShowBlogs/>
+        {user && <ShowUsers/>}
       </div>
     </div>
   )

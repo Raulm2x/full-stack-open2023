@@ -4,18 +4,22 @@ import PropTypes from 'prop-types'
 import { useDispatch, useSelector } from 'react-redux'
 import { setBlogs } from '../reducers/blogReducer'
 import { setUser } from '../reducers/userReducer'
+import { setNotification } from '../reducers/notificationReducer'
+import { setUsers } from '../reducers/usersReducer'
 
 import apiBlogs from '../services/apiBlogs'
 
+
 import LikeButton from './LikeButton'
 import RemoveButton from './RemoveButton'
-import { setNotification } from '../reducers/notificationReducer'
+
 
 //OnClick:handleLikeButton
 const BlogDetails = ({ blog }) => {
   const dispatch = useDispatch()
   const user = useSelector(state => state.user)
   const blogs = useSelector(state => state.blogs)
+  const users = useSelector(state  => state.users)
 
   const [visible, setVisible] = useState(false)
   const [likedBlog, setLikedBlog] = useState(false)
@@ -62,6 +66,12 @@ const BlogDetails = ({ blog }) => {
         const upUser = { ...user,
           blogs: user.blogs.filter(l => l !== blog.id) }
         dispatch(setUser(upUser))
+
+        const upUsers = users.map(u => u.id === user.id
+          ? upUser
+          : u
+        )
+        dispatch(setUsers(upUsers))
 
         const upBlogs = blogs.filter(b => b.id !== blog.id)
         dispatch(setBlogs(upBlogs))

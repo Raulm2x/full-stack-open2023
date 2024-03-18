@@ -1,9 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit'
 import apiBlogs from '../services/apiBlogs'
 import listHelper from '../../../utils/list_helper'
-import { useSelector } from 'react-redux'
+
 import { setUser } from './userReducer'
 import { setNotification } from './notificationReducer'
+import { loadUsers } from './usersReducer'
 
 
 const blogSlice = createSlice({
@@ -49,6 +50,7 @@ export const createBlog = (newBlog, user) => {
       dispatch(
         setNotification(`a new blog ${newBlog.title} by ${newBlog.author} added`,true,5)
       )
+      dispatch(loadUsers())
     } catch (error) {
       dispatch(
         setNotification(`error adding new blog ${newBlog.title} by ${newBlog.author}`,false,5)
