@@ -1,8 +1,10 @@
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { createBlog } from '../reducers/blogReducer'
+import { useNavigate } from 'react-router-dom'
 
 const BlogForm = () => {
+  const navigate = useNavigate()
   const dispatch = useDispatch()
   const user = useSelector(state => state.user)
 
@@ -37,6 +39,7 @@ const BlogForm = () => {
     setNewAuthor('')
     setNewTitle('')
     setNewUrl('')
+    navigate('/')
   }
 
   return (

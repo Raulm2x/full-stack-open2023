@@ -1,9 +1,13 @@
 import { useState } from 'react'
 import { userLogin } from '../reducers/userReducer'
 import { setNotification } from '../reducers/notificationReducer'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+
 
 const LoginForm = () => {
+  const user = useSelector(state => state.user)
+  const navigate = useNavigate()
   const dispatch = useDispatch()
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -28,9 +32,12 @@ const LoginForm = () => {
       password,
     }
     handleLogin(userData)
-
     setUsername('')
     setPassword('')
+
+    navigate('/')
+
+
   }
 
   return (

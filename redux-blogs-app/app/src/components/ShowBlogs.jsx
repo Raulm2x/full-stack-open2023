@@ -1,5 +1,4 @@
 import BlogDetails from './BlogDetails'
-import PropTypes from 'prop-types'
 import { useSelector } from 'react-redux'
 
 const ShowBlogs = () => {
@@ -11,6 +10,7 @@ const ShowBlogs = () => {
 
   return (
     <div>
+      <h2>Blog List</h2>
       <ul>
         {blogs.map((blog, index) => (
           <BlogDetails
