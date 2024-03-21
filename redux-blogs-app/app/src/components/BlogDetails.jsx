@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
+import { useNavigate } from 'react-router-dom'
 
 import { useDispatch, useSelector } from 'react-redux'
 import { setBlogs } from '../reducers/blogReducer'
@@ -16,12 +17,13 @@ import RemoveButton from './RemoveButton'
 
 //OnClick:handleLikeButton
 const BlogDetails = ({ blog }) => {
+  const navigate = useNavigate()
   const dispatch = useDispatch()
   const user = useSelector(state => state.user)
   const blogs = useSelector(state => state.blogs)
   const users = useSelector(state  => state.users)
 
-  const [visible, setVisible] = useState(false)
+  //const [visible, setVisible] = useState(false)
   const [likedBlog, setLikedBlog] = useState(false)
 
   //Like Button
@@ -77,29 +79,35 @@ const BlogDetails = ({ blog }) => {
         dispatch(setBlogs(upBlogs))
 
         dispatch(setNotification(`${blog.title} by ${blog.author} was removed`, true, 5))
-
+        navigate('/')
       } catch (error) {
         console.error(error)
       }
     }
   }
 
+  /*
   const button = () => {
     return (
       <button onClick={() => setVisible(!visible)}>
         {visible? 'hide':'view'}
       </button>
     )
-  }
+  }*/
 
   useEffect(() => {
-    if (user) {
+    if (user && blog) {
       setLikedBlog(blog.likedBy
         ? blog.likedBy.some(u => u.toString() === user.id.toString())
         : false
       )
     }
-  }, [user, blog.likedBy])
+  }, [user])
+
+
+  if (!blog){
+    return <div>Blog does not exist</div>
+  }
 
   let ownedBlog = false
   if (user && blogs) {
@@ -109,24 +117,22 @@ const BlogDetails = ({ blog }) => {
   }
 
   return (
-    <li className='blog'>
-      <h3>{blog.title} {button()}</h3>
+    <div className='blog'>
+      <h3>{blog.title}</h3>
       Author: {blog.author}<br/>
-      {visible &&
-        <div className='moreDetails'>
-          Url: <a href={blog.url} target="_blank" rel='noreferrer'>{blog.url}</a><br/>
-          Likes: {blog.likes}
-          {user && <LikeButton OnClick={handleLikeButton} blog={blog} liked={likedBlog}/>}
-          <br/>
-          {(blog.user && user) &&
-            <div>
-            Posted by: {blog.user.name || blog.user.username}
-            </div>
-          }
-          {ownedBlog && <RemoveButton handleRemove={handleRemove} blog={blog}/>}
-        </div>
-      }
-    </li>
+      <div className='moreDetails'>
+        Url: <a href={blog.url} target="_blank" rel='noreferrer'>{blog.url}</a><br/>
+        Likes: {blog.likes}
+        {user && <LikeButton OnClick={handleLikeButton} blog={blog} liked={likedBlog}/>}
+        <br/>
+        {(blog.user && user) &&
+          <div>
+          Posted by: {blog.user.name || blog.user.username}
+          </div>
+        }
+        {ownedBlog && <RemoveButton handleRemove={handleRemove} blog={blog}/>}
+      </div>
+    </div>
   )
 }
 

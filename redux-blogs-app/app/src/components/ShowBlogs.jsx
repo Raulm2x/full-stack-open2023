@@ -1,8 +1,8 @@
-import BlogDetails from './BlogDetails'
 import { useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
 
 const ShowBlogs = () => {
-  const blogs = useSelector(state => state.blogs)
+  const blogs = useSelector((state) => state.blogs)
 
   if (!blogs) {
     return <div>loading blogs...</div>
@@ -12,11 +12,10 @@ const ShowBlogs = () => {
     <div>
       <h2>Blog List</h2>
       <ul>
-        {blogs.map((blog, index) => (
-          <BlogDetails
-            key={index}
-            blog={blog}
-          />
+        {blogs.map((blog) => (
+          <li key={blog.id}>
+            <Link to={`/blogs/${blog.id}`}>{blog.title}</Link>
+          </li>
         ))}
       </ul>
     </div>
