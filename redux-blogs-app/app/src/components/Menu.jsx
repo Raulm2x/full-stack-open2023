@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
+import LogOutButton from './LogOutButton'
 
 const Menu = () => {
   const user = useSelector(state => state.user)
@@ -30,6 +31,12 @@ const Menu = () => {
       <Link style={padding} to='/about'>
         About
       </Link>
+      {user &&
+        <>
+          {user.username} logged in{' '}
+          <LogOutButton/>
+        </>
+      }
     </div>
   )
 }

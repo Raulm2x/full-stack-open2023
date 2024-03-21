@@ -9,19 +9,16 @@ import {
 
 import Notification from './components/Notification.jsx'
 import LoginForm from './components/LoginForm.jsx'
-//import Togglable from './components/Togglable.jsx'
 import BlogForm from './components/BlogForm.jsx'
 import ShowBlogs from './components/ShowBlogs.jsx'
-import LogOutButton from './components/LogOutButton.jsx'
 import ShowUsers from './components/ShowUsers.jsx'
 import Menu from './components/Menu.jsx'
 import UserDetails from './components/UserDetails.jsx'
-
-import { initializeBlogs } from './reducers/blogReducer.js'
-import { loadUsers } from './reducers/usersReducer'
 import BlogDetails from './components/BlogDetails.jsx'
 import About from './components/About.jsx'
 
+import { initializeBlogs } from './reducers/blogReducer.js'
+import { loadUsers } from './reducers/usersReducer'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -52,15 +49,8 @@ const App = () => {
         <Menu/>
         <div>
           <h1>Blog App</h1>
-          {user &&
-            <div>
-              {user.username} logged in
-              <LogOutButton/>
-            </div>
-          }
         </div>
         <Notification/>
-        <br/>
       </header>
 
       <Routes>
