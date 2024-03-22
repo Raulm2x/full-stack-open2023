@@ -13,9 +13,9 @@ import apiBlogs from '../services/apiBlogs'
 
 import LikeButton from './LikeButton'
 import RemoveButton from './RemoveButton'
+import CommentForm from './CommentForm'
 
 
-//OnClick:handleLikeButton
 const BlogDetails = ({ blog }) => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -23,7 +23,6 @@ const BlogDetails = ({ blog }) => {
   const blogs = useSelector(state => state.blogs)
   const users = useSelector(state  => state.users)
 
-  //const [visible, setVisible] = useState(false)
   const [likedBlog, setLikedBlog] = useState(false)
 
   //Like Button
@@ -86,15 +85,6 @@ const BlogDetails = ({ blog }) => {
     }
   }
 
-  /*
-  const button = () => {
-    return (
-      <button onClick={() => setVisible(!visible)}>
-        {visible? 'hide':'view'}
-      </button>
-    )
-  }*/
-
   useEffect(() => {
     if (user && blog) {
       setLikedBlog(blog.likedBy
@@ -116,9 +106,26 @@ const BlogDetails = ({ blog }) => {
     ownedBlog = false
   }
 
+  const showComments = () => {
+    return (
+      <div>
+        <h3>Comments</h3>
+        <CommentForm blog={blog}/>
+        <br/>
+        {blog.comments.length !== 0?
+          <ul>
+            {blog.comments.map((comment, index) =>
+              <li key={index}>{comment}</li>)}
+          </ul>
+          : <div>This blog does not have comments yet.</div>
+        }
+      </div>
+    )
+  }
+
   return (
     <div className='blog'>
-      <h3>{blog.title}</h3>
+      <h2>{blog.title}</h2>
       Author: {blog.author}<br/>
       <div className='moreDetails'>
         Url: <a href={blog.url} target="_blank" rel='noreferrer'>{blog.url}</a><br/>
@@ -132,12 +139,13 @@ const BlogDetails = ({ blog }) => {
         }
         {ownedBlog && <RemoveButton handleRemove={handleRemove} blog={blog}/>}
       </div>
+      {showComments()}
     </div>
   )
 }
 
 BlogDetails.propTypes = {
-  blog: PropTypes.object.isRequired
+  blog: PropTypes.object
 }
 
 export default BlogDetails
