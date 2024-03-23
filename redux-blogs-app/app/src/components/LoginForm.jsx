@@ -4,9 +4,8 @@ import { setNotification } from '../reducers/notificationReducer'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
-
 const LoginForm = () => {
-  const user = useSelector(state => state.user)
+  const user = useSelector((state) => state.user)
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const [username, setUsername] = useState('')
@@ -36,34 +35,54 @@ const LoginForm = () => {
     setPassword('')
 
     navigate('/')
-
-
   }
 
   return (
-    <form onSubmit={login}>
-      <h2>Login</h2>
-      <div>
-        username
+    <form
+      className='bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4'
+      onSubmit={login}
+    >
+      <h2 className='block text-gray-700 text-lg font-bold mb-2'>Login</h2>
+      <div className='mb-4'>
+        <label
+          className='block text-gray-700 text-sm font-bold mb-2'
+          htmlFor='username'
+        >
+          Username
+        </label>
         <input
-          type='text'
-          value={username}
-          name='Username'
+          className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
           id='username'
+          type='text'
+          placeholder='Username'
+          value={username}
           onChange={onChangeUsername}
         />
       </div>
-      <div>
-        password
+      <div className='mb-6'>
+        <label
+          className='block text-gray-700 text-sm font-bold mb-2'
+          htmlFor='password'
+        >
+          Password
+        </label>
         <input
-          type='password'
-          value={password}
-          name='Password'
+          className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline'
           id='password'
+          type='password'
+          placeholder='******************'
+          value={password}
           onChange={onChangePassword}
         />
       </div>
-      <button id='loginButton' type='submit'>login</button>
+      <div className='flex items-center justify-between'>
+        <button
+          className='bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
+          type='submit'
+        >
+          Login
+        </button>
+      </div>
     </form>
   )
 }

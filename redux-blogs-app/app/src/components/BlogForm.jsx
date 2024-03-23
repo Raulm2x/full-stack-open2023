@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom'
 const BlogForm = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const user = useSelector(state => state.user)
+  const user = useSelector((state) => state.user)
 
   const [newTitle, setNewTitle] = useState('')
   const [newAuthor, setNewAuthor] = useState('')
@@ -35,7 +35,7 @@ const BlogForm = () => {
       author: newAuthor || 'Unknown',
       url: newUrl || 'Not found',
     }
-    dispatch(createBlog(newBlog,user))
+    dispatch(createBlog(newBlog, user))
     setNewAuthor('')
     setNewTitle('')
     setNewUrl('')
@@ -43,22 +43,61 @@ const BlogForm = () => {
   }
 
   return (
-    <div className='blogForm'>
-      <h2>Add a new blog</h2>
-      <form onSubmit={addBlog}>
-        <label htmlFor='inputTitle'>Title: </label>
-        <input id='inputTitle' value={newTitle} onChange={handleNewTitle} />
-        <br />
+    <div className='bg-white p-6 rounded-lg shadow-lg'>
+      <h2 className='text-2xl font-semibold mb-4'>Add a new blog</h2>
+      <form className='space-y-4' onSubmit={addBlog}>
+        <div>
+          <label
+            className='block text-gray-700 text-sm font-bold mb-2'
+            htmlFor='inputTitle'
+          >
+            Title:{' '}
+          </label>
+          <input
+            className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+            id='inputTitle'
+            value={newTitle}
+            onChange={handleNewTitle}
+          />
+        </div>
 
-        <label htmlFor='inputAuthor'>Author: </label>
-        <input id='inputAuthor' value={newAuthor} onChange={handleNewAuthor} />
-        <br />
+        <div>
+          <label
+            className='block text-gray-700 text-sm font-bold mb-2'
+            htmlFor='inputAuthor'
+          >
+            Author:{' '}
+          </label>
+          <input
+            className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+            id='inputAuthor'
+            value={newAuthor}
+            onChange={handleNewAuthor}
+          />
+        </div>
 
-        <label htmlFor='inputUrl'>Url: </label>
-        <input id='inputUrl' value={newUrl} onChange={handleNewUrl} />
-        <br />
+        <div>
+          <label
+            className='block text-gray-700 text-sm font-bold mb-2'
+            htmlFor='inputUrl'
+          >
+            Url:{' '}
+          </label>
+          <input
+            className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+            id='inputUrl'
+            value={newUrl}
+            onChange={handleNewUrl}
+          />
+        </div>
 
-        <button id='save-blog' type='submit'>Save</button>
+        <button
+          className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
+          id='save-blog'
+          type='submit'
+        >
+          Save
+        </button>
       </form>
     </div>
   )

@@ -9,12 +9,20 @@ const ShowBlogs = () => {
   }
 
   return (
-    <div>
-      <h2>Blog List</h2>
-      <ul>
+    <div className='mt-16 px-4 sm:px-8 max-w-5xl m-auto'>
+      <h1 className='text-center font-semibold text-2xl mb-4'>Blog List</h1>
+      <ul className='space-y-4'>
         {blogs.map((blog) => (
-          <li key={blog.id}>
-            <Link to={`/blogs/${blog.id}`}>{blog.title}</Link>
+          <li
+            key={blog.id}
+            className='px-4 py-2 bg-white hover:bg-blue-100 hover:text-blue-900 border rounded shadow transition-all duration-300 ease-in-out'
+          >
+            <Link
+              to={`/blogs/${blog.id}`}
+              className='text-sm text-center block mt-4 hover:underline'
+            >
+              {blog.title}
+            </Link>
           </li>
         ))}
       </ul>

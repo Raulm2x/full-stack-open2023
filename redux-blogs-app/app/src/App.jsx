@@ -7,18 +7,18 @@ import {
   useMatch
 } from 'react-router-dom'
 
-import Notification from './components/Notification.jsx'
 import LoginForm from './components/LoginForm.jsx'
 import BlogForm from './components/BlogForm.jsx'
 import ShowBlogs from './components/ShowBlogs.jsx'
 import ShowUsers from './components/ShowUsers.jsx'
-import Menu from './components/Menu.jsx'
 import UserDetails from './components/UserDetails.jsx'
 import BlogDetails from './components/BlogDetails.jsx'
 import About from './components/About.jsx'
 
 import { initializeBlogs } from './reducers/blogReducer.js'
 import { loadUsers } from './reducers/usersReducer'
+import Header from './components/Header.jsx'
+import Footer from './components/Footer.jsx'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -44,14 +44,8 @@ const App = () => {
     : null
 
   return (
-    <div>
-      <header>
-        <Menu/>
-        <div>
-          <h1>Blog App</h1>
-        </div>
-        <Notification/>
-      </header>
+    <div className="p-2">
+      <Header/>
 
       <Routes>
         <Route path="/" element={<ShowBlogs/>}/>
@@ -65,13 +59,7 @@ const App = () => {
         <Route path="/about" element={<About/>}/>
       </Routes>
 
-      <footer>
-        <br/>
-        Part 7 from{' '}
-        <a href='https://fullstackopen.com/en' target="_blank" rel="noopener noreferrer">
-        https://fullstackopen.com
-        </a>
-      </footer>
+      <Footer/>
     </div>
   )
 }

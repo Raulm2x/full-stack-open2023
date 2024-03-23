@@ -8,18 +8,12 @@ const Notification = () => {
       : { message: false, type: false }
   })
 
-  const show = type? 'rgb(134, 205, 72)': 'rgb(224, 51, 51)'
-
-  const estilo = {
-    color : show,
-  }
-
   if (!message) {
     return null
   }
 
   return (
-    <div className='confirmation' style={estilo}>
+    <div className={`p-4 rounded-lg text-white ${type ? 'bg-green-500' : 'bg-red-500'} transition-all duration-300 ease-in-out`}>
       {message}
     </div>
   )

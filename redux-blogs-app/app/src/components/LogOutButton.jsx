@@ -7,7 +7,12 @@ const LogOutButton = () => {
 
   return (
     <>
-      <button onClick={logOut}> Log out </button>
+      <button
+        onClick={logOut}
+        className="h-12 min-w-[8rem] rounded-lg border-2 border-red-600 bg-red-500 text-emerald-50 shadow-lg hover:bg-red-600 focus:outline-none focus:ring focus:ring-red-600"
+      >
+         Log out
+      </button>
     </>
   )
 }

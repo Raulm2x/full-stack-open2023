@@ -108,34 +108,32 @@ const BlogDetails = ({ blog }) => {
 
   const showComments = () => {
     return (
-      <div>
-        <h3>Comments</h3>
+      <div className="mt-4">
+        <h3 className="text-lg font-semibold mb-2">Comments</h3>
         <CommentForm blog={blog}/>
-        <br/>
         {blog.comments.length !== 0?
-          <ul>
+          <ul className="list-disc pl-5 space-y-2 mt-2">
             {blog.comments.map((comment, index) =>
-              <li key={index}>{comment}</li>)}
+              <li key={index} className="text-gray-700">{comment}</li>)}
           </ul>
-          : <div>This blog does not have comments yet.</div>
+          : <div className="text-gray-500 mt-2">This blog does not have comments yet.</div>
         }
       </div>
     )
   }
 
   return (
-    <div className='blog'>
-      <h2>{blog.title}</h2>
-      Author: {blog.author}<br/>
-      <div className='moreDetails'>
-        Url: <a href={blog.url} target="_blank" rel='noreferrer'>{blog.url}</a><br/>
-        Likes: {blog.likes}
+    <div className='bg-white p-6 rounded-lg shadow-lg'>
+      <h2 className='text-2xl font-semibold mb-2'>{blog.title}</h2>
+      <p className='text-gray-700'>Author: {blog.author}</p>
+      <div className='moreDetails mt-4'>
+        <p className='text-gray-700'>Url: <a href={blog.url} target="_blank" rel='noreferrer' className='text-blue-600 hover:underline'>{blog.url}</a></p>
+        <p className='text-gray-700'>Likes: {blog.likes}</p>
         {user && <LikeButton OnClick={handleLikeButton} blog={blog} liked={likedBlog}/>}
-        <br/>
         {(blog.user && user) &&
-          <div>
+          <p className='text-gray-700 mt-2'>
           Posted by: {blog.user.name || blog.user.username}
-          </div>
+          </p>
         }
         {ownedBlog && <RemoveButton handleRemove={handleRemove} blog={blog}/>}
       </div>
